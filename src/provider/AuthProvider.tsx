@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 import { updateProfile } from "firebase/auth/cordova";
 
-interface AuthContextProps {
+export interface AuthContextProps {
   isAuthenticated: boolean;
   user: UserCredential | null;
   signInWithEmailAndPassword: (
