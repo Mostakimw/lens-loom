@@ -13,7 +13,7 @@ interface PostProps {
   };
 }
 const SingleSavedPost = ({ post }: PostProps) => {
-  const { id, username, avatar, image, caption, likes } = post;
+  const { username, avatar, image, caption, likes } = post;
 
   return (
     <div className="space-y-4">

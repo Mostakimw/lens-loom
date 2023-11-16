@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiHeart, CiBookmark } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 import { TfiCommentsSmiley } from "react-icons/tfi";
 
 interface PostProps {
@@ -16,6 +17,8 @@ interface PostProps {
 const SinglePost = ({ post }: PostProps) => {
   const { id, username, avatar, image, caption, likes } = post;
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [likeCount, setLikeCount] = useState<number>(likes);
 
   useEffect(() => {
     // Fetch the existing saved posts from local storage
@@ -32,6 +35,12 @@ const SinglePost = ({ post }: PostProps) => {
     setIsSaved(isPostSaved);
   }, [id]);
 
+  const handleLike = () => {
+    setIsLiked((prev) => !prev);
+    setLikeCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+  };
+
+  // handle post save on saved
   const handleSave = (id: string) => {
     setIsSaved((prev) => !prev);
 
@@ -80,17 +89,25 @@ const SinglePost = ({ post }: PostProps) => {
       {/* like comment save  */}
       <div className="flex justify-between pb-6">
         <div className="flex gap-3 items-center">
-          <button title="Love">
-            <CiHeart className="text-3xl"></CiHeart>
+          {/* love btn  */}
+          <button title="Love" onClick={handleLike}>
+            {isLiked ? (
+              <FaHeart className="text-3xl text-red-500"></FaHeart>
+            ) : (
+              <CiHeart className="text-3xl"></CiHeart>
+            )}
           </button>
           <p className="font-light text-base text-[#757575]">
-            {likes > 0 ? likes : 0} People Love this post
+            {likeCount > 0 ? likeCount : 0} People Love this post
           </p>
+
+          {/* comment btn  */}
           <button title="Comment">
             <TfiCommentsSmiley className="text-3xl"></TfiCommentsSmiley>
           </button>
         </div>
         <div>
+          {/* saved btn  */}
           <button
             title={isSaved ? "Unsave this post" : "Save this post"}
             onClick={() => handleSave(id)}
