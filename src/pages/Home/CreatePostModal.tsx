@@ -4,12 +4,38 @@ import { FcGallery } from "react-icons/fc";
 import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+interface CreatePostModalProps {
+  setOpenPostModal: React.Dispatch<React.SetStateAction<boolean>>;
+  onPostSubmit: (postData: PostData) => void;
+}
 
-const CreatePostModal = ({ setOpenPostModal, onPostSubmit }: any) => {
+type Comment = {
+  id: number;
+  username: string;
+  text: string;
+  timestamp: string;
+};
+
+interface PostData {
+  id: string;
+  avatar: string;
+  image: string | null;
+  username: string | null | undefined;
+  email: string | null | undefined;
+  caption: string;
+  timestamp: string;
+  like: number;
+  comment: Comment[];
+}
+
+const CreatePostModal: React.FC<CreatePostModalProps> = ({
+  setOpenPostModal,
+  onPostSubmit,
+}) => {
   const { user }: AuthContextProps = useAuth();
-  const fileInputRef: any = useRef<null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile]: any = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -28,7 +54,8 @@ const CreatePostModal = ({ setOpenPostModal, onPostSubmit }: any) => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("image", fileInputRef.current.files[0]);
+      const file = fileInputRef.current?.files?.[0];
+      formData.append("image", file || "");
       const url = `https://api.imgbb.com/1/upload?key=${
         import.meta.env.VITE_IMGBB_API_KEY
       }`;
@@ -85,7 +112,7 @@ const CreatePostModal = ({ setOpenPostModal, onPostSubmit }: any) => {
             <div className="space-y-4">
               <label
                 className="input border-gray-300 border-2 flex items-center justify-between text-xl text-gray-400 cursor-pointer mt-3 px-3 py-2"
-                onClick={() => fileInputRef.current.click()}
+                onClick={() => fileInputRef.current?.click()}
                 aria-required
               >
                 <h1 className="text-xl ">
