@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
 import CreatePostModal from "./CreatePostModal";
+import { Post } from "./Posts";
 
-const CreatePost = () => {
+interface CreatePostProps {
+  onPostSubmit: (newPost: Post) => void;
+}
+const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
   const [openPostModal, setOpenPostModal] = useState<boolean>(false);
 
   const { user }: AuthContextProps = useAuth();
@@ -43,6 +47,7 @@ const CreatePost = () => {
         {openPostModal && (
           <CreatePostModal
             setOpenPostModal={setOpenPostModal}
+            onPostSubmit={onPostSubmit}
           ></CreatePostModal>
         )}
       </div>

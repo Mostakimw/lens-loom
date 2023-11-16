@@ -7,11 +7,16 @@ import Login from "./pages/Login/Login.tsx";
 import Register from "./pages/Register/Register.tsx";
 import { AuthProvider } from "./provider/AuthProvider.tsx";
 import { Toaster } from "react-hot-toast";
+import SavePosts from "./pages/SavedPosts/SavePosts.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/saved",
+    element: <SavePosts />,
   },
   {
     path: "login",

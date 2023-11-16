@@ -3,10 +3,11 @@ import { IoClose } from "react-icons/io5";
 import { FcGallery } from "react-icons/fc";
 import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
-const CreatePostModal = ({ setOpenPostModal }: any) => {
+const CreatePostModal = ({ setOpenPostModal, onPostSubmit }: any) => {
   const { user }: AuthContextProps = useAuth();
-  const fileInputRef: any = useRef(null);
+  const fileInputRef: any = useRef<null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedFile, setSelectedFile]: any = useState(null);
 
@@ -41,15 +42,22 @@ const CreatePostModal = ({ setOpenPostModal }: any) => {
 
       //   send data to the server----------------
       const postData = {
-        authorImage: user?.photoURL,
+        id: uuidv4(),
+        avatar:
+          "https://gravatar.com/avatar/f5f3109fdd0b88ae9301bc13d64ceea8?s=400&d=robohash&r=x",
         image: imageUrl,
-        name: user?.user?.displayName,
+        username: user?.user?.displayName,
         email: user?.user?.email,
-        description: status,
-        uploadedtime: convertTimestamp(new Date()),
+        caption: status,
+        timestamp: convertTimestamp(new Date()),
         like: 0,
         comment: [],
       };
+
+      onPostSubmit(postData);
+      form.reset();
+      toast.success("Post Done");
+      setOpenPostModal(false);
     } catch (error) {
       setLoading(false);
       toast.error("Error posting");

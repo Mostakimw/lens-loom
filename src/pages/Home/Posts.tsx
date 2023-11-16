@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
+import CreatePost from "./CreatePost";
 
-interface Post {
-  id: number;
+export interface Post {
+  id: string;
   username: string;
   avatar: string;
   image: string;
+  caption: string;
+  likes: number;
 }
 
 const Posts = () => {
@@ -26,12 +29,20 @@ const Posts = () => {
     fetchData();
   }, []);
 
+  const handlePostSubmit = (newPost: Post) => {
+    // Update the state with the new post
+    setPosts((prevPosts) => [newPost, ...prevPosts]);
+  };
+
   return (
-    <div className="max-w-xl mx-auto my-10 space-y-4">
-      {posts.map((post) => (
-        <SinglePost key={post.id} post={post} />
-      ))}
-    </div>
+    <>
+      <CreatePost onPostSubmit={handlePostSubmit} />
+      <div className="max-w-xl mx-auto my-10 space-y-4 px-2 md:px-0">
+        {posts.map((post) => (
+          <SinglePost key={post.id} post={post} />
+        ))}
+      </div>
+    </>
   );
 };
 

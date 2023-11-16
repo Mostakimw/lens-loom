@@ -1,4 +1,3 @@
-import CreatePost from "./CreatePost";
 import Posts from "./Posts";
 import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
 import { FaArrowCircleDown, FaSignOutAlt } from "react-icons/fa";
@@ -16,7 +15,7 @@ const Home = () => {
   return (
     <>
       {/* navbar  */}
-      <div className="flex justify-between items-center max-w-xl mx-auto my-5">
+      <div className="flex justify-between items-center max-w-xl mx-auto my-5 px-2 md:px-0">
         <h1>Lens Loom</h1>
         <Link to="/saved">
           <button className="btn btn-primary">
@@ -57,7 +56,6 @@ const Home = () => {
 
       {/* other component  */}
       <div>
-        <CreatePost />
         <Posts />
       </div>
     </>

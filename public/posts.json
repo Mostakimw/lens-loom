@@ -1,6 +1,6 @@
 [
   {
-    "id": 1,
+    "id": "1",
     "username": "The Man",
     "avatar": "https://gravatar.com/avatar/c818839dde56fca72a056ac79ce868fc?s=400&d=robohash&r=x",
     "image": "https://img.freepik.com/free-photo/top-view-cabbage-bowl-with-onion-plate-eggplant_23-2148853404.jpg?t=st=1700067217~exp=1700067817~hmac=9a9417f83312afb237445e711cbdcd466306ace466a242a4146d1d585996c5f5",
@@ -23,7 +23,7 @@
     "timestamp": "2023-01-15T10:00:00Z"
   },
   {
-    "id": 2,
+    "id": "2",
     "username": "Miraj bro",
     "avatar": "https://gravatar.com/avatar/f5f3109fdd0b88ae9301bc13d64ceea8?s=400&d=robohash&r=x",
     "image": "https://img.freepik.com/free-photo/top-view-bell-peppers-with-garlic_23-2148853383.jpg",
@@ -46,7 +46,7 @@
     "timestamp": "2023-01-16T08:30:00Z"
   },
   {
-    "id": 3,
+    "id": "3",
     "username": "Tutururtu",
     "avatar": "https://gravatar.com/avatar/024a44b5f1958529a62a6cb731e5d29d?s=400&d=robohash&r=x",
     "image": "https://img.freepik.com/free-photo/close-up-cucumbers-with-celery_23-2148853387.jpg?w=1380&t=st=1700109063~exp=1700109663~hmac=b0f6f49189edf46a853444cc2bdafabecf20ed24ddd2962d5ee11a4c86aa9d5f",
