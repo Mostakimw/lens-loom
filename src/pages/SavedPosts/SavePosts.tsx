@@ -15,19 +15,25 @@ export interface Post {
 const SavePosts = () => {
   const [savedPosts, setSavedPosts] = useState<Post[]>([]);
 
-  useEffect(() => {
-    // Fetch saved posts from local storage
+  //   getting saved posts from local storage
+  const updateSavedPosts = () => {
     const savedPostsData = JSON.parse(
       localStorage.getItem("savedPosts") || "[]"
     );
     setSavedPosts(savedPostsData);
+  };
+
+  useEffect(() => {
+    updateSavedPosts();
   }, []);
 
+  //   delete saved posts
   const handleDeleteSavedPosts = () => {
     localStorage.removeItem("savedPosts");
     toast("Deleted!", {
       icon: "❎",
     });
+    updateSavedPosts();
   };
 
   return (
@@ -36,6 +42,7 @@ const SavePosts = () => {
         <h1 className="font-mono font-italic font-bold text-2xl mb-3 text-purple-500 text-center">
           My Saved Posts
         </h1>
+        {/* saved posts rendered here  */}
         {savedPosts.length === 0 ? (
           <div className="flex flex-col items-center">
             <p className="text-center text-gray-500">No saved posts yet.</p>
