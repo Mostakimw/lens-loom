@@ -1,16 +1,20 @@
 import { useState } from "react";
-import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
 import CreatePostModal from "./CreatePostModal";
 import { Post } from "./Posts";
+import { useAuth } from "../../hooks/useAuth";
+import { AuthContextProps } from "../../provider/AuthProvider";
 
+// types
 interface CreatePostProps {
   onPostSubmit: (newPost: Post) => void;
 }
+
+// code start
 const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
   const [openPostModal, setOpenPostModal] = useState<boolean>(false);
 
   const { user }: AuthContextProps = useAuth();
-  const userName = user?.user?.displayName;
+  const userName = user?.displayName;
 
   return (
     <>
@@ -20,7 +24,7 @@ const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
           className="py-4 bg-base-100 rounded-xl"
         >
           <div className="flex items-center gap-3 p-1">
-            {user?.user ? (
+            {user ? (
               <img
                 className="w-10 h-10 object-cover rounded-full"
                 src="https://gravatar.com/avatar/024a44b5f1958529a62a6cb731e5d29d?s=400&d=robohash&r=x"

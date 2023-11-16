@@ -1,56 +1,47 @@
 import React, { useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FcGallery } from "react-icons/fc";
-import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
+import { AuthContextProps } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+import { useAuth } from "../../hooks/useAuth";
+import { Post } from "./Posts";
+
+// type
 interface CreatePostModalProps {
   setOpenPostModal: React.Dispatch<React.SetStateAction<boolean>>;
-  onPostSubmit: (postData: PostData) => void;
+  onPostSubmit: (postData: Post) => void;
 }
 
-type Comment = {
-  id: number;
-  username: string;
-  text: string;
-  timestamp: string;
-};
-
-interface PostData {
-  id: string;
-  avatar: string;
-  image: string | null;
-  username: string | null | undefined;
-  email: string | null | undefined;
-  caption: string;
-  timestamp: string;
-  like: number;
-  comment: Comment[];
-}
-
+// code
 const CreatePostModal: React.FC<CreatePostModalProps> = ({
   setOpenPostModal,
   onPostSubmit,
 }) => {
   const { user }: AuthContextProps = useAuth();
+  // for image file
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
+  // handle upload image
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setSelectedFile(file || null);
   };
 
+  // time stamp
   const convertTimestamp = (timestamp: Date) => {
     return timestamp.toLocaleString();
   };
 
+  // handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
     const status = form.status.value;
 
+    // image host using imgbb
     try {
       setLoading(true);
       const formData = new FormData();
@@ -67,17 +58,17 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
       const imageUrl = result?.data?.display_url;
       console.log(imageUrl);
 
-      //   send data to the server----------------
+      // save new posts
       const postData = {
         id: uuidv4(),
         avatar:
           "https://gravatar.com/avatar/f5f3109fdd0b88ae9301bc13d64ceea8?s=400&d=robohash&r=x",
         image: imageUrl,
-        username: user?.user?.displayName,
-        email: user?.user?.email,
+        username: user?.displayName ?? "",
+        email: user?.email,
         caption: status,
         timestamp: convertTimestamp(new Date()),
-        like: 0,
+        likes: 0,
         comment: [],
       };
 
@@ -90,6 +81,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
       toast.error("Error posting");
     }
   };
+
   return (
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50">

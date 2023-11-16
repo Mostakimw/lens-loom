@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
+import { useAuth } from "../../hooks/useAuth";
 const Register = () => {
-  const { signUpWithEmailAndPassword, updateUserProfile } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,9 +14,9 @@ const Register = () => {
     e.preventDefault();
     try {
       //handle Registration
-      await signUpWithEmailAndPassword(email, password);
+      await registerUser(email, password);
       toast.success("registration success");
-      await updateUserProfile(name);
+      updateUserProfile(name);
       navigate("/");
     } catch (error) {
       toast.error("Registration error:");

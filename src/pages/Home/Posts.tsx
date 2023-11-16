@@ -2,13 +2,24 @@ import { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
 import CreatePost from "./CreatePost";
 
+// type
+type Comment = {
+  id: number;
+  username: string;
+  text: string;
+  timestamp: string;
+};
+
 export interface Post {
   id: string;
-  username: string;
   avatar: string;
-  image: string;
+  image: string | null;
+  username: string | null | undefined;
+  email: string | null | undefined;
   caption: string;
+  timestamp: string;
   likes: number;
+  comment: Comment[];
 }
 
 const Posts = () => {

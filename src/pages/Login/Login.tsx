@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../provider/AuthProvider";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
-  const { signInWithEmailAndPassword } = useAuth();
+  const { loginUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(email, password);
+      await loginUser(email, password);
       navigate("/");
       toast("Welcome!", {
         icon: "👏",

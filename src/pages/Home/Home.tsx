@@ -1,15 +1,16 @@
 import Posts from "./Posts";
-import { useAuth, AuthContextProps } from "../../provider/AuthProvider";
+import { AuthContextProps } from "../../provider/AuthProvider";
 import { FaArrowCircleDown, FaSignOutAlt } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 const Home = () => {
-  const { user, signOut }: AuthContextProps = useAuth();
+  const { user, logoutUser }: AuthContextProps = useAuth();
 
   // ! logout user handler
   const signoutUser = () => {
-    signOut();
+    logoutUser();
   };
 
   return (
@@ -25,13 +26,13 @@ const Home = () => {
         <div className="text-gray-300">
           <div>
             {/* showing user name as link and when click the link then signout button appear  */}
-            {user?.user ? (
+            {user ? (
               <div className="dropdown dropdown-end">
                 <label
                   tabIndex={0}
                   className="text-gray-800 bg-gray-100 border border-blue-500 px-3 py-3 hover:cursor-pointer rounded-full transition-all duration-300"
                 >
-                  {user?.user?.displayName}{" "}
+                  {user?.displayName}{" "}
                   <FaArrowCircleDown className="inline-block" />
                 </label>
                 <ul

@@ -1,124 +1,81 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import app from "./../firebase/firebase.config";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import {
-  UserCredential,
+  createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
-  signInWithEmailAndPassword as signIn,
-  signOut as signOutFirebase,
-  createUserWithEmailAndPassword as signUp,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+  Auth,
+  User,
+  UserCredential,
 } from "firebase/auth";
-import { updateProfile } from "firebase/auth/cordova";
+import app from "../firebase/firebase.config";
 
 export interface AuthContextProps {
-  isAuthenticated: boolean;
-  user: UserCredential | null;
-  signInWithEmailAndPassword: (
-    email: string,
-    password: string
-  ) => Promise<void>;
-  signOut: () => void;
-  signUpWithEmailAndPassword: (
-    email: string,
-    password: string
-  ) => Promise<void>;
+  user: User | null;
+  loading: boolean;
+  registerUser: (email: string, password: string) => Promise<UserCredential>;
+  loginUser: (email: string, password: string) => Promise<UserCredential>;
+  logoutUser: () => Promise<void>;
   updateUserProfile: (name: string) => Promise<void>;
 }
 
-const auth = getAuth(app);
+export const AuthContext = createContext<AuthContextProps | null>(null);
 
-export const AuthContext = createContext<AuthContextProps | undefined>(
-  undefined
-);
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<UserCredential | null>(null);
+const auth: Auth = getAuth(app);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      if (authUser) {
-        // Create a simplified UserCredential object
-        const userCredential: UserCredential = {
-          user: authUser,
-          // Additional properties specific to UserCredential
-          providerId: "", // This may vary based on your authentication providers
-          operationType: "signIn", // or 'signIn' based on your use case
-        };
+const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-        setIsAuthenticated(true);
-        setUser(userCredential);
-      } else {
-        setIsAuthenticated(false);
-        setUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // signIn
-  const signInWithEmailAndPassword = async (
-    email: string,
-    password: string
-  ) => {
-    try {
-      const userCredential = await signIn(auth, email, password);
-      setUser(userCredential);
-    } catch (error) {
-      console.error("Sign in error:", error);
-      throw new Error("Sign in failed");
-    }
+  const registerUser = (email: string, password: string) => {
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  //sign out
-  const signOut = () => {
-    signOutFirebase(auth);
+  const loginUser = (email: string, password: string) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
-  //sign up
-  const signUpWithEmailAndPassword = async (
-    email: string,
-    password: string
-  ) => {
-    try {
-      const userCredential = await signUp(auth, email, password);
-      setUser(userCredential);
-    } catch (error) {
-      console.error("Sign up error:", error);
-      throw new Error("Sign up failed");
-    }
+  const logoutUser = () => {
+    return signOut(auth);
   };
 
-  //update user profile
   const updateUserProfile = (name: string) => {
     return updateProfile(auth.currentUser!, {
       displayName: name,
     });
   };
 
-  // value
-  const contextValue: AuthContextProps = {
-    isAuthenticated,
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
+      setUser(loggedUser);
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const authInfo: AuthContextProps = {
     user,
-    signInWithEmailAndPassword,
-    signOut,
-    signUpWithEmailAndPassword,
+    loading,
+    registerUser,
     updateUserProfile,
+    loginUser,
+    logoutUser,
   };
 
   return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return context;
-};
+export default AuthProvider;

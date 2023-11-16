@@ -7,15 +7,15 @@ import { TfiCommentsSmiley } from "react-icons/tfi";
 interface PostProps {
   post: {
     id: string;
-    username: string;
+    username: string | null | undefined;
     avatar: string;
-    image: string;
+    image: string | null | undefined;
     caption: string;
     likes: number;
   };
 }
 const SinglePost = ({ post }: PostProps) => {
-  const { id, username, avatar, image, caption, likes } = post;
+  const { id, username, avatar, caption, likes } = post;
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(likes);
@@ -84,7 +84,11 @@ const SinglePost = ({ post }: PostProps) => {
       <h2 className="text-xl font-normal font-mono">{caption}</h2>
       {/* image div  */}
       <div>
-        <img className="object-cover rounded-md" src={image} alt="" />
+        <img
+          className="object-cover rounded-md"
+          src="https://gravatar.com/avatar/c818839dde56fca72a056ac79ce868fc?s=400&d=robohash&r=x"
+          alt=""
+        />
       </div>
       {/* like comment save  */}
       <div className="flex justify-between pb-6">
@@ -98,7 +102,7 @@ const SinglePost = ({ post }: PostProps) => {
             )}
           </button>
           <p className="font-light text-base text-[#757575]">
-            {likeCount > 0 ? likeCount : 0} People Love this post
+            {likeCount >= 0 ? likeCount : 0} People Love this post
           </p>
 
           {/* comment btn  */}
