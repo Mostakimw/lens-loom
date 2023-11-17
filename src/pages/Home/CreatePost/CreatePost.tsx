@@ -18,7 +18,7 @@ const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
 
   return (
     <>
-      <div className="max-w-xl mx-auto pt-6">
+      <div className="max-w-xl mx-auto pt-6 px-2">
         <div
           onClick={() => setOpenPostModal(true)}
           className="p-4 bg-purple-400 rounded-xl"

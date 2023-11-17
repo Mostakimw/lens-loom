@@ -168,14 +168,15 @@ const SinglePost = ({ post }: PostProps) => {
 
       {/* comments section */}
       {isCommentSectionOpen && (
-        <div>
+        <div className="w-full">
           {comments.map((comment) => (
-            <div key={comment.id} className="flex space-x-2">
-              <span className="font-semibold">{comment.username}:</span>
-              <p
-                className="text-gray-700"
-                style={{ maxWidth: "400px", wordWrap: "break-word" }}
-              >
+            <div
+              key={comment.id}
+              className="flex gap-2"
+              style={{ wordWrap: "break-word" }}
+            >
+              <p className="font-semibold">{comment.username}:</p>
+              <p className="text-gray-700 max-w-[200px] md:max-w-lg">
                 {comment.text}
               </p>
             </div>

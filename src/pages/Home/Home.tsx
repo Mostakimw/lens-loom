@@ -27,11 +27,13 @@ const Home = () => {
             <img className="object-cover w-40" src={logo} alt="" />
           </Link>
         </div>
-        <Link to="/saved">
-          <button className="btn btn-primary">
-            Saved <CiBookmark className="text-xl"></CiBookmark>
-          </button>
-        </Link>
+        <div className="hidden md:block">
+          <Link to="/saved">
+            <button className="btn btn-primary">
+              Saved <CiBookmark className="text-xl"></CiBookmark>
+            </button>
+          </Link>
+        </div>
         <div className="text-gray-300">
           <div>
             {/* showing user name as link and when click the link then signout button appear  */}
@@ -46,13 +48,20 @@ const Home = () => {
                 </label>
                 <ul
                   tabIndex={0}
-                  className="menu dropdown-content p-2 shadow bg-base-100 rounded-box text-gray-800 w-40 mt-4"
+                  className="menu dropdown-content p-2 space-y-3 shadow bg-base-100 rounded-box text-gray-800 w-40 mt-4"
                 >
-                  <li>
-                    <button onClick={signoutUser}>
-                      Sign Out <FaSignOutAlt />
+                  <div>
+                    <button className="btn btn-primary" onClick={signoutUser}>
+                      Sign Out <FaSignOutAlt className="text-xl" />
                     </button>
-                  </li>
+                  </div>
+                  <div className="block md:hidden">
+                    <Link to="/saved">
+                      <button className="btn btn-primary">
+                        Saved <CiBookmark className="text-xl"></CiBookmark>
+                      </button>
+                    </Link>
+                  </div>
                 </ul>
               </div>
             ) : (
