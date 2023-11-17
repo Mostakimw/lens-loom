@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { CiHeart, CiBookmark } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { TfiCommentsSmiley } from "react-icons/tfi";
+import { useAuth } from "../../hooks/useAuth";
 
+// type
+interface Comment {
+  id: number;
+  username: string | null | undefined;
+  text: string;
+  timestamp: string;
+}
 interface PostProps {
   post: {
     id: string;
@@ -12,14 +20,27 @@ interface PostProps {
     image: string | null | undefined;
     caption: string;
     likes: number;
+    comments?: Comment[];
   };
 }
+
+//code start
 const SinglePost = ({ post }: PostProps) => {
+  const { user } = useAuth();
   const { id, username, avatar, image, caption, likes } = post;
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(likes);
+  const [comments, setComments] = useState(post.comments || []);
+  const [newComment, setNewComment] = useState("");
+  const [isCommentSectionOpen, setIsCommentSectionOpen] = useState(false);
 
+  // comment section toggle
+  const toggleCommentSection = () => {
+    setIsCommentSectionOpen((prev) => !prev);
+  };
+
+  // getting saved post from local storage
   useEffect(() => {
     // Fetch the existing saved posts from local storage
     const savedPosts = JSON.parse(localStorage.getItem("savedPosts") || "[]");
@@ -35,9 +56,32 @@ const SinglePost = ({ post }: PostProps) => {
     setIsSaved(isPostSaved);
   }, [id]);
 
+  // handle like
   const handleLike = () => {
     setIsLiked((prev) => !prev);
     setLikeCount((prevCount) => (isLiked ? prevCount - 1 : prevCount + 1));
+  };
+
+  //handling comment add
+  const handleAddComment = () => {
+    if (newComment.trim() !== "") {
+      const newCommentObject = {
+        id: comments.length + 1,
+        username: user?.displayName,
+        text: newComment,
+        timestamp: new Date().toISOString(),
+      };
+
+      setComments((prevComments) => [...prevComments, newCommentObject]);
+      setNewComment("");
+    }
+  };
+
+  // comment by entering enter key
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleAddComment();
+    }
   };
 
   // handle post save on saved
@@ -69,6 +113,7 @@ const SinglePost = ({ post }: PostProps) => {
     // Save the updated savedPosts array to local storage
     localStorage.setItem("savedPosts", JSON.stringify(savedPosts));
   };
+
   return (
     <div className="space-y-4">
       {/* name  */}
@@ -102,7 +147,7 @@ const SinglePost = ({ post }: PostProps) => {
           </p>
 
           {/* comment btn  */}
-          <button title="Comment">
+          <button title="Comment" onClick={toggleCommentSection}>
             <TfiCommentsSmiley className="text-3xl"></TfiCommentsSmiley>
           </button>
         </div>
@@ -120,6 +165,43 @@ const SinglePost = ({ post }: PostProps) => {
           </button>
         </div>
       </div>
+
+      {/* comments section */}
+      {isCommentSectionOpen && (
+        <div>
+          {comments.map((comment) => (
+            <div key={comment.id} className="flex space-x-2">
+              <span className="font-semibold">{comment.username}:</span>
+              <p
+                className="text-gray-700"
+                style={{ maxWidth: "400px", wordWrap: "break-word" }}
+              >
+                {comment.text}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* add comment input */}
+      {isCommentSectionOpen && (
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            placeholder="Add a comment..."
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className="border rounded p-2 flex-1"
+          />
+          <button
+            onClick={handleAddComment}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Add Comment
+          </button>
+        </div>
+      )}
       <hr className="border-2" />
     </div>
   );
