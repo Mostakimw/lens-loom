@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import SinglePost from "./SinglePost";
-import CreatePost from "./CreatePost";
+import CreatePost from "../CreatePost/CreatePost";
 
 // type
 type Comment = {

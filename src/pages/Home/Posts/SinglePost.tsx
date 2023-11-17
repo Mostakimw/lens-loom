@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { CiHeart, CiBookmark } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { TfiCommentsSmiley } from "react-icons/tfi";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../../hooks/useAuth";
 
 // type
 interface Comment {

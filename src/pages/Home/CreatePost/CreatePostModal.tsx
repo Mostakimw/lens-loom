@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { FcGallery } from "react-icons/fc";
-import { AuthContextProps } from "../../provider/AuthProvider";
+import { AuthContextProps } from "../../../provider/AuthProvider";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
-import { useAuth } from "../../hooks/useAuth";
-import { Post } from "./Posts";
+import { useAuth } from "../../../hooks/useAuth";
+import { Post } from "../Posts/Posts";
 
 // type
 interface CreatePostModalProps {
@@ -130,7 +130,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
 
             <button
               type="submit"
-              className="btn bg-[#3b82f6] py-2 text-white text-xl w-full mt-3"
+              className="btn btn-primary py-2 text-white text-xl w-full mt-3"
               disabled={loading}
             >
               {loading ? "Posting..." : "Post"}

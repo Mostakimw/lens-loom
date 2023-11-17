@@ -1,9 +1,11 @@
-import Posts from "./Posts";
+import Posts from "./Posts/Posts";
 import { AuthContextProps } from "../../provider/AuthProvider";
 import { FaArrowCircleDown, FaSignOutAlt } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import logo from "./../../assets/logo.png";
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { user, logoutUser }: AuthContextProps = useAuth();
@@ -15,9 +17,16 @@ const Home = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Lens Loom</title>
+      </Helmet>
       {/* navbar  */}
       <div className="flex justify-between items-center max-w-xl mx-auto my-5 px-2 md:px-0">
-        <h1>Lens Loom</h1>
+        <div>
+          <Link to="/">
+            <img className="object-cover w-40" src={logo} alt="" />
+          </Link>
+        </div>
         <Link to="/saved">
           <button className="btn btn-primary">
             Saved <CiBookmark className="text-xl"></CiBookmark>

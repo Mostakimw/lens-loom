@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import SavePosts from "./pages/SavedPosts/SavePosts.tsx";
 import AuthProvider from "./provider/AuthProvider.tsx";
 import PrivateRoute from "./provider/PrivateRoute.tsx";
+import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter([
   {
@@ -35,9 +36,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <Toaster />
-      <RouterProvider router={router}></RouterProvider>
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <Toaster />
+        <RouterProvider router={router}></RouterProvider>
+      </AuthProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );

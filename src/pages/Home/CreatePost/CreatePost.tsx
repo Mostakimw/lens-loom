@@ -1,8 +1,8 @@
 import { useState } from "react";
 import CreatePostModal from "./CreatePostModal";
-import { Post } from "./Posts";
-import { useAuth } from "../../hooks/useAuth";
-import { AuthContextProps } from "../../provider/AuthProvider";
+import { Post } from "../Posts/Posts";
+import { useAuth } from "../../../hooks/useAuth";
+import { AuthContextProps } from "../../../provider/AuthProvider";
 
 // types
 interface CreatePostProps {
@@ -18,15 +18,15 @@ const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
 
   return (
     <>
-      <div className="max-w-xl mx-auto">
+      <div className="max-w-xl mx-auto pt-6">
         <div
           onClick={() => setOpenPostModal(true)}
-          className="py-4 bg-base-100 rounded-xl"
+          className="p-4 bg-purple-400 rounded-xl"
         >
-          <div className="flex items-center gap-3 p-1">
+          <div className="flex items-center gap-3 p-1 ">
             {user ? (
               <img
-                className="w-10 h-10 object-cover rounded-full"
+                className="w-10 h-10 object-cover rounded-full border-2"
                 src="https://gravatar.com/avatar/024a44b5f1958529a62a6cb731e5d29d?s=400&d=robohash&r=x"
                 alt="User"
               />
@@ -42,7 +42,7 @@ const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
                 className="py-2 md:px-4 px-1 w-full cursor-pointer"
                 style={{ borderBottom: "2px solid #999" }}
               >
-                <p className="text-gray-400">{`What's on your mind, ${userName}?`}</p>
+                <p className="text-gray-100">{`What's on your mind, ${userName}?`}</p>
               </div>
             </div>
           </div>
