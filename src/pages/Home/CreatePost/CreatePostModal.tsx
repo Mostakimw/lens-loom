@@ -86,7 +86,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className="fixed inset-0 bg-black opacity-70"></div>
-        <div className="bg-white p-6 w-1/3 rounded-lg shadow-md relative">
+        <div className="bg-white p-6 md:w-1/3 rounded-lg shadow-md relative">
           {/* form start  */}
           <form onSubmit={handleSubmit}>
             <div className="flex items-center my-3 justify-around">
