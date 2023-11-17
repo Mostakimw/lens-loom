@@ -22,9 +22,11 @@ export interface Post {
   comment: Comment[];
 }
 
+//code start
 const Posts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
+  // getting dummy post data
   const fetchData = async () => {
     try {
       const response = await fetch("posts.json");

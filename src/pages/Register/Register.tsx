@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
+
+// code
 const Register = () => {
   const { registerUser, updateUserProfile } = useAuth();
   const [name, setName] = useState("");
@@ -22,6 +24,7 @@ const Register = () => {
       toast.error("Registration error:");
     }
   };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -38,9 +41,10 @@ const Register = () => {
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" onSubmit={handleRegister}>
+            {/* name  */}
             <div>
               <label
-                htmlFor="email"
+                htmlFor="name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Name
@@ -57,6 +61,8 @@ const Register = () => {
                 />
               </div>
             </div>
+
+            {/* email  */}
             <div>
               <label
                 htmlFor="email"
@@ -77,6 +83,7 @@ const Register = () => {
               </div>
             </div>
 
+            {/* password  */}
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -99,6 +106,7 @@ const Register = () => {
               </div>
             </div>
 
+            {/* btn  */}
             <div>
               <button
                 type="submit"

@@ -47,6 +47,7 @@ const CreatePost = ({ onPostSubmit }: CreatePostProps) => {
             </div>
           </div>
         </div>
+        {/* post modal  */}
         {openPostModal && <div className="overlayCustom" />}
         {openPostModal && (
           <CreatePostModal

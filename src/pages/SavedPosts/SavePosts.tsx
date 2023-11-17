@@ -3,6 +3,7 @@ import SingleSavedPost from "./SingleSavedPost";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
+// type
 export interface Post {
   id: string;
   username: string;
@@ -12,6 +13,7 @@ export interface Post {
   likes: number;
 }
 
+//code
 const SavePosts = () => {
   const [savedPosts, setSavedPosts] = useState<Post[]>([]);
 

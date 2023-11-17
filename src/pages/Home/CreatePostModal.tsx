@@ -87,10 +87,11 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
       <div className="fixed inset-0 flex items-center justify-center z-50">
         <div className="fixed inset-0 bg-black opacity-70"></div>
         <div className="bg-white p-6 w-1/3 rounded-lg shadow-md relative">
+          {/* form start  */}
           <form onSubmit={handleSubmit}>
             <div className="flex items-center my-3 justify-around">
               <h1 className="text-center text-2xl font-semibold">
-                Create Post
+                Make a Post
               </h1>
               <button
                 onClick={() => setOpenPostModal(false)}
@@ -101,6 +102,7 @@ const CreatePostModal: React.FC<CreatePostModalProps> = ({
             </div>
             <hr />
 
+            {/* image and text area  */}
             <div className="space-y-4">
               <label
                 className="input border-gray-300 border-2 flex items-center justify-between text-xl text-gray-400 cursor-pointer mt-3 px-3 py-2"

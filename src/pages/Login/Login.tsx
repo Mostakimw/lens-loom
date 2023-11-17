@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "../../hooks/useAuth";
+
+//code
 const Login = () => {
   const { loginUser } = useAuth();
   const [email, setEmail] = useState("");
@@ -9,6 +11,7 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  //handle login
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -21,6 +24,7 @@ const Login = () => {
       console.error("login error");
     }
   };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -36,7 +40,9 @@ const Login = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          {/* form  */}
           <form className="space-y-6" onSubmit={handleLogin}>
+            {/* email  */}
             <div>
               <label
                 htmlFor="email"
@@ -57,6 +63,7 @@ const Login = () => {
               </div>
             </div>
 
+            {/* password  */}
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -79,6 +86,7 @@ const Login = () => {
               </div>
             </div>
 
+            {/* sign in btn  */}
             <div>
               <button
                 type="submit"

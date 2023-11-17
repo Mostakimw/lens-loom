@@ -8,6 +8,8 @@ const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({
   const { user, loading } = useAuth();
 
   const location = useLocation();
+
+  // when loading return loading
   if (loading) {
     return <Loading />;
   }
